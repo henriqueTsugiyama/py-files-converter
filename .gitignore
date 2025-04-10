@@ -1,0 +1,8 @@
+assets/*
+output/*
+exceptions/*
+Include/
+Lib/
+Scripts/
+pyvenv.cfg
+list.py
