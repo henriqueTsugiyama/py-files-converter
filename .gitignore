@@ -1,6 +1,9 @@
-assets/*
-output/*
-exceptions/*
+assets/*/
+!assets/.gitkeep
+output/*/
+!output/.gitkeep
+exceptions/*/
+!exceptions/.gitkeep
 Include/
 Lib/
 Scripts/
