@@ -24,19 +24,19 @@ pip install -r requirements.txt
 ## Place your input files in /assets
 **NOTE: the scripts work for __.png__, __.jpeg__, __.jpg__ files only**
 
-## In case you might want to handle specific exceptions, place them in /exceptions
+In case you might want to handle specific exceptions, place them in **/exceptions**
 
 ## To convert images to pdf
 ```bash
-python convert_to_pdf.py
+python convert_to_pdf.py assets/path1 output/path2
 ```
 
 ## To convert .heic to png
 ```bash
-python convert_to_png.py
+python convert_to_png.py assets/path1 output/path2
 ```
 
-## To zip files to a output
+## To zip files
 ```bash
 python zip_files.py assets/path1 output/path2
 ```
