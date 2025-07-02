@@ -23,7 +23,7 @@ else:
         converted = []
 
         for filename in os.listdir(folder_path):
-            if filename.lower().endswith(".heic"):
+            if filename.lower().endswith(".heic") or filename.lower().endswith(".pdf"):
                 heic_path = os.path.join(folder_path, filename)
                 base_name = os.path.splitext(filename)[0]
                 output_filename = f"{base_name}.{output_format}"
