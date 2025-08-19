@@ -3,13 +3,31 @@
 # using img2pdf library
 # importing necessary libraries
 import img2pdf
-from PIL import Image
+from PIL import Image, PdfParser
 import os
 from os import listdir
 from os.path import isfile, join
 import re
 import sys
 from random import randint
+
+def set_file_name(file_name):
+    f_name = ''
+    limit = 2
+
+    if len(file_name) > 10:
+        limit = 4
+
+
+    for i, w in enumerate(file_name):
+        if i > limit:
+            break
+        if i == 0:
+            f_name = w
+        else:
+            f_name += f"-{w}"
+    
+    return f_name
 
 def format_size(size_bytes):
     size = size_bytes / (1024 * 1024)
@@ -40,33 +58,35 @@ else:
     else: 
         for index, file in enumerate(onlyfiles):
             if index <= limit:
+                not_pdf = file.find(".pdf") == -1
                 pdf_name = file.rstrip('.jpeg').rstrip('.jpg').rstrip('.png')
-                prev_pdf_name =  onlyfiles[index-1].rstrip('.jpeg').rstrip('.jpg').rstrip('.png')
-                print(index)
+                prev_pdf_name = onlyfiles[index-1].rstrip('.jpeg').rstrip('.jpg').rstrip('.png')
+
                 ## Construct the full path to the input image file and get size
-                current_image_full_path = os.path.join(img_path, file)
-                image_size_bytes = os.path.getsize(current_image_full_path)
+                current_file_full_path = os.path.join(img_path, file)
+                bytes_size = os.path.getsize(current_file_full_path)
                 within_size_limit = size_acc < size_limit
+
                 if within_size_limit:
-                    size_acc += format_size(image_size_bytes)
+                    size_acc += format_size(bytes_size)
                     print("Size so far:", size_acc)
                 else:
                     size_acc = 0
                     print('Reached Size limit!', size_acc)
 
-                # # opening image
-                image = Image.open(f"{img_path}\\{file}")
                 # Specify the directory name
                 pdf_name_split = re.split('-+|__', pdf_name)
                 prev_pdf_name_split = re.split('-+|__', prev_pdf_name)
+     
+                # Need to differentiate store name  
+                current_store_name = set_file_name(pdf_name_split)
+                previous_store_name = set_file_name(prev_pdf_name_split)
+                # Naming directories
+                directory_name = current_store_name
 
-                first_word_current =  f"{pdf_name_split[0]}-{pdf_name_split[1]}"
-                first_word_prev =  f"{prev_pdf_name_split[0]}-{prev_pdf_name_split[1]}"
-                directory_name = f"{pdf_name_split[0]}-{pdf_name_split[1]}"
-
-                if first_word_current != first_word_prev or index < 1 or not within_size_limit:
+                if current_store_name != previous_store_name or index < 1 or not within_size_limit:
                     print("New Directory!!")            
-                    print(first_word_current, first_word_prev)
+                    print(pdf_name, prev_pdf_name)
                     # Create the directory
                     try:
                         if not within_size_limit:
@@ -86,20 +106,30 @@ else:
                     except Exception as e:
                         print(f"An error occurred: {e}")
 
-                pdf_file_path = os.path.join(file_path_to_save, f"{pdf_name}.pdf")
-                # converting into chunks using img2pdf
-                pdf_bytes = img2pdf.convert(image.filename, rotation=img2pdf.Rotation.ifvalid)
+
+                if not_pdf:
+                    # # opening image
+                    image = Image.open(f"{img_path}\\{file}")
+                    pdf_output_file_path = os.path.join(file_path_to_save, f"{pdf_name}.pdf")
+                    # converting into chunks using img2pdf
+                    pdf_bytes = img2pdf.convert(image.filename, rotation=img2pdf.Rotation.ifvalid)
+                    ## closing image file
+                    image.close()
+                else:
                     # # opening or creating pdf file
-                file = open(pdf_file_path, "wb")
-                    #  
-                    # # writing pdf files with chunks
-                file.write(pdf_bytes)
-                    #  
-                    # # closing image file
-                image.close()
-                    #  
-                    # # closing pdf file
-                file.close()
+                    pdf_output_file_path = os.path.join(file_path_to_save, pdf_name)
+                    file_reader = open(current_file_full_path, "rb")
+                    pdf_bytes = file_reader.read()
+                    file_reader.close()
+
+
+                # # writing pdf files with chunks
+                file_writer = open(pdf_output_file_path, "wb")
+                file_writer.write(pdf_bytes)
+
+                ## closing pdf file
+                file_writer.close()
                 # # output
                 print("Successfully made pdf file", file_path_to_save)
+
         
