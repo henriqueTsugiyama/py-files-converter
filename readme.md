@@ -24,6 +24,12 @@ The GUI application provides an easy-to-use interface for file conversion withou
    ```
 
 4. **Run the GUI application**
+   
+   **Easy way (double-click):**
+   - **Windows**: Double-click `run_gui.bat`
+   - **macOS/Linux**: Double-click `run_gui.sh` (or run `./run_gui.sh` in terminal)
+   
+   **Manual way:**
    ```bash
    python file_converter_gui.py
    ```

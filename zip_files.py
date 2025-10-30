@@ -13,7 +13,7 @@ else:
             if root == folder_path:
                 continue
             # where the files will be zipped to
-            dir_name = root.split("\\")
+            dir_name = root.split(os.sep)
             zip_filename = dir_name[-1] + '.zip'
             zip_path = os.path.join(out_path, zip_filename)
             print('DIR NAME =>',zip_filename)
