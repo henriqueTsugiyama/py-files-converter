@@ -109,7 +109,7 @@ else:
 
                 if not_pdf:
                     # # opening image
-                    image = Image.open(f"{img_path}\\{file}")
+                    image = Image.open(os.path.join(img_path, file))
                     pdf_output_file_path = os.path.join(file_path_to_save, f"{pdf_name}.pdf")
                     # converting into chunks using img2pdf
                     pdf_bytes = img2pdf.convert(image.filename, rotation=img2pdf.Rotation.ifvalid)
