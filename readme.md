@@ -6,6 +6,13 @@ This project provides both a **user-friendly GUI desktop application** and Pytho
 
 The GUI application provides an easy-to-use interface for file conversion without needing to use the command line.
 
+### Features
+- ✅ **User-Friendly Interface** - No command-line knowledge required
+- ✅ **Visual Progress Tracking** - See real-time status updates
+- ✅ **Browse & Select** - Easy folder selection with browse dialogs
+- ✅ **Three Operations** - Convert to PDF, Convert HEIC to PNG, and Zip Files
+- ✅ **Cross-Platform** - Works on Windows, macOS, and Linux
+
 ### Quick Start - Running the GUI
 
 1. **Install Python** (if not already installed)
